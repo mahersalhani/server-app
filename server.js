@@ -17,24 +17,23 @@ const usersPath = path.join(__dirname, "..", "users");
 const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
-dotenv.config({ path: "./conf.env" });
+dotenv.config();
 
 // // allows to access routes
 
-var whitelist = [`http://${process.env.DOMAIN_NAME}`, "http://example2.com"];
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
+// var whitelist = [`http://${process.env.DOMAIN_NAME}`, "http://example2.com"];
+// var corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1 || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
-const confFile = path.join(__dirname, "..", "..", "nginx", "conf", "sites-enabled");
 
 app.post("/api/dns", async (req, res, next) => {
   const lookupPromise = new Promise((resolve, reject) => {

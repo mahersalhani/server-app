@@ -58,8 +58,5 @@ spec:
       console.log(err);
       return;
     }
-
-    console.log(stdout);
-    console.log(stderr);
   });
 };

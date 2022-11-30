@@ -2,7 +2,9 @@ const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
 
-const confFile = path.join(__dirname, "..", "..", "..", "nginx", "conf", "sites-enabled");
+// const confFile = path.join(__dirname, "..", "..", "..", "nginx", "conf", "sites-enabled");
+const confFile = path.join("/", "etc", "nginx", 'sites-available');
+
 
 exports.writeConfig = (shopName, template, port) => {
   const config = `
@@ -12,7 +14,7 @@ exports.writeConfig = (shopName, template, port) => {
 
 
   location / {
-    root   html/${template}/build/;
+    root   ${process.env.ROOT}/${template}/build/;
 
     index  index.html index.htm;
     proxy_http_version 1.1;
@@ -41,7 +43,7 @@ exports.writeConfig = (shopName, template, port) => {
 
   fs.writeFileSync(path.join(confFile, `${shopName}.conf`), config);
 
-  exec("cd F:\\nginx && nginx -s reload", (err, stdout, stderr) => {
+  exec("nginx -s reload", (err, stdout, stderr) => {
     if (err) {
       console.log(err);
       return;
